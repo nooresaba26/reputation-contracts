@@ -41,6 +41,10 @@ contract ReputationManager {
         require(stats[validator].active, "Validator not active");
         _;
     }
+    modifier onlyRegisteredActiveValidator() {
+    require(stats[msg.sender].active, "Caller not active validator");
+    _;
+}
 
     constructor() {
         owner = msg.sender;
@@ -79,13 +83,13 @@ contract ReputationManager {
         - unsuccessful voters get unsuccessfulVotes++
         - selected validators update consecutiveParticipation
     */
-    function recordFinalizedBlock(
-        uint256 blockNumber,
-        address[] calldata onlineValidators,
-        address[] calldata selectedValidators,
-        address[] calldata successfulVoters,
-        address[] calldata unsuccessfulVoters
-    ) external onlyOwner {
+   function recordFinalizedBlock(
+    uint256 blockNumber,
+    address[] calldata onlineValidators,
+    address[] calldata selectedValidators,
+    address[] calldata successfulVoters,
+    address[] calldata unsuccessfulVoters
+) external onlyRegisteredActiveValidator {
         // 1. Every active validator was observed for this finalized block
         for (uint256 i = 0; i < validators.length; i++) {
             address validator = validators[i];
