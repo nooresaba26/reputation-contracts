@@ -94,10 +94,15 @@ contract ReputationManager {
         for (uint256 i = 0; i < validators.length; i++) {
             address validator = validators[i];
 
-            if (stats[validator].active) {
-                stats[validator].observedBlocks += 1;
-                emit BlockObserved(validator, blockNumber);
-            }
+             if (stats[validator].active) {
+        stats[validator].observedBlocks += 1;
+
+        if (stats[validator].lastParticipatedBlock + 1 < blockNumber) {
+            stats[validator].consecutiveParticipation = 0;
+        }
+
+        emit BlockObserved(validator, blockNumber);
+    }
         }
 
         // 2. Validators that were online/responsive

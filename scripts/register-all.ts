@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import artifact from "../artifacts/contracts/ReputationManager.sol/ReputationManager.json" with { type: "json" };
 
 const rpcUrl = "http://127.0.0.1:8545";
-const contractAddress = "0x95d6a2eD2b326170BF524f712d3ACBf5540B4De3";
+const contractAddress = "0x7b8Ac07Ee88B408bcb0D0B8d331173557C5BF8eB";
 
 const provider = new ethers.JsonRpcProvider(rpcUrl);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
@@ -16,9 +16,14 @@ const validators = [
   "0xa3e5f6fdb94c11aaf9ce352aec48438d3f078919",
 ];
 
-for (const v of validators) {
-  console.log("Registering:", v);
-  await (await contract.registerValidator(v)).wait();
+for (const validator of validators) {
+  console.log("Registering:", validator);
+
+  const tx = await contract.registerValidator(validator);
+  console.log("Tx:", tx.hash);
+
+  await tx.wait();
+  console.log("Registered:", validator);
 }
 
 console.log("Active validators:");
