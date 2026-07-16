@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import artifact from "../artifacts/contracts/ReputationManager.sol/ReputationManager.json" with { type: "json" };
 
 const rpcUrl = "http://127.0.0.1:8545";
-const contractAddress = "0x7b8Ac07Ee88B408bcb0D0B8d331173557C5BF8eB";
+const contractAddress = "0xeB4D259426e570aAEeC7CD305f593e3fE70e311D";
 
 const provider = new ethers.JsonRpcProvider(rpcUrl);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
